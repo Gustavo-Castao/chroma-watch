@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloj de Agujas</title>
+    <style>
+      body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background-color: #f0f0f0;
+          margin: 0;
+          font-family: Arial, sans-serif;
+      }
+
+      .clock {
+          position: relative;
+          width: 250px;
+          height: 250px;
+          border: 10px solid #333;
+          border-radius: 50%;
+          background-color: #fff;
+      }
+
+      .hand {
+          position: absolute;
+          background-color: #333;
+          transform-origin: bottom center;
+          border-radius: 10px;
+          left: 50%;
+          bottom: 50%;
+      }
+
+      .hour-hand {
+          width: 6px;
+          height: 60px;
+      }
+
+      .minute-hand {
+          width: 4px;
+          height: 80px;
+      }
+
+      .second-hand {
+          width: 2px;
+          height: 90px;
+          background-color: red;
+      }
+
+      .number {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          font-weight: bold;
+          color: #333;
+          background-color: var(--color);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-100px) rotate(calc(var(--i) * -30deg));
+      }
+
+      .time-display {
+          margin-top: 20px;
+          padding: 10px 20px;
+          background: linear-gradient(90deg, yellow, orange);
+          border-radius: 10px;
+          color: #333;
+          font-size: 24px;
+          font-weight: bold;
+          text-align: center;
+      }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <!-- Agujas -->
+        <div class="hand hour-hand" id="hour-hand"></div>
+        <div class="hand minute-hand" id="minute-hand"></div>
+        <div class="hand second-hand" id="second-hand"></div>
+
+        <!-- Números y colores -->
+        <div class="number" style="--i: 0; --color: yellow;">12</div>
+        <div class="number" style="--i: 1; --color: #FFD700;">1</div>
+        <div class="number" style="--i: 2; --color: orange;">2</div>
+        <div class="number" style="--i: 3; --color: #FF4500;">3</div>
+        <div class="number" style="--i: 4; --color: red;">4</div>
+        <div class="number" style="--i: 5; --color: #8A2BE2;">5</div>
+        <div class="number" style="--i: 6; --color: violet;">6</div>
+        <div class="number" style="--i: 7; --color: #8A2BE2;">7</div>
+        <div class="number" style="--i: 8; --color: blue;">8</div>
+        <div class="number" style="--i: 9; --color: #00FF00;">9</div>
+        <div class="number" style="--i: 10; --color: green;">10</div>
+        <div class="number" style="--i: 11; --color: #ADFF2F;">11</div>
+    </div>
+
+    <!-- Rectángulo con la hora -->
+    <div class="time-display" id="time-display">
+        <span id="time-text">00:00:00</span>
+    </div>
+
+    <script>
+      function updateClock() {
+          const now = new Date();
+          const hours = now.getHours();
+          const minutes = now.getMinutes();
+          const seconds = now.getSeconds();
+
+          const hourHand = document.getElementById('hour-hand');
+          const minuteHand = document.getElementById('minute-hand');
+          const secondHand = document.getElementById('second-hand');
+          const timeDisplay = document.getElementById('time-display');
+          const timeText = document.getElementById('time-text');
+
+          const hourDeg = (hours % 12) * 30 + (minutes / 2);
+          const minuteDeg = minutes * 6 + (seconds / 10);
+          const secondDeg = seconds * 6;
+
+          hourHand.style.transform = `rotate(${hourDeg}deg)`;
+          minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+          secondHand.style.transform = `rotate(${secondDeg}deg)`;
+
+          const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+          timeText.textContent = formattedTime;
+
+          const hourColor = getHourColor(hours % 12);
+          const minuteColor = getMinuteColor(minutes);
+          timeDisplay.style.background = `linear-gradient(90deg, ${hourColor}, ${minuteColor})`;
+      }
+
+      function getHourColor(hour) {
+          const colors = [
+              "yellow", "#FFD700", "orange", "#FF4500", "red", "#8A2BE2",
+              "violet", "#8A2BE2", "blue", "#00FF00", "green", "#ADFF2F"
+          ];
+          return colors[hour];
+      }
+
+      function getMinuteColor(minute) {
+          const percent = minute / 60;
+          const r = Math.floor(255 * percent);
+          const g = Math.floor(255 * (1 - percent));
+          const b = 0;
+          return `rgb(${r}, ${g}, ${b})`;
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock();
+    </script>
+</body>
+</html>
