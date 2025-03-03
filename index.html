@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reloj de Agujas</title>
+    <title>Reloj de Agujas con Piano</title>
     <style>
         body {
             display: flex;
@@ -72,18 +72,18 @@
         <div class="hand second-hand" id="second-hand"></div>
 
         <!-- Números y colores (CMYK) -->
-        <div class="number" style="--i: 0; --color: #FFFF00; --text-color: #800080;" data-note="do">12</div>
-        <div class="number" style="--i: 1; --color: #FFD700; --text-color: #0000FF;" data-note="re">1</div>
-        <div class="number" style="--i: 2; --color: #FFA500; --text-color: #0000FF;" data-note="mi">2</div>
-        <div class="number" style="--i: 3; --color: #FF4500; --text-color: #00BFFF;" data-note="fa">3</div>
-        <div class="number" style="--i: 4; --color: #FF0000; --text-color: #00FF00;" data-note="sol">4</div>
-        <div class="number" style="--i: 5; --color: #8A2BE2; --text-color: #FFD700;" data-note="la">5</div>
-        <div class="number" style="--i: 6; --color: #800080; --text-color: #FFFF00;" data-note="si">6</div>
-        <div class="number" style="--i: 7; --color: #4B0082; --text-color: #FFA500;" data-note="do2">7</div>
-        <div class="number" style="--i: 8; --color: #0000FF; --text-color: #FF4500;" data-note="re2">8</div>
-        <div class="number" style="--i: 9; --color: #004080; --text-color: #FF0000;" data-note="mi2">9</div>
-        <div class="number" style="--i: 10; --color: #008000; --text-color: #8A2BE2;" data-note="fa2">10</div>
-        <div class="number" style="--i: 11; --color: #ADFF2F; --text-color: #4B0082;" data-note="sol2">11</div>
+        <div class="number" style="--i: 0; --color: #FFFF00; --text-color: #800080;" data-note="C4">12</div>
+        <div class="number" style="--i: 1; --color: #FFD700; --text-color: #0000FF;" data-note="D4">1</div>
+        <div class="number" style="--i: 2; --color: #FFA500; --text-color: #0000FF;" data-note="E4">2</div>
+        <div class="number" style="--i: 3; --color: #FF4500; --text-color: #00BFFF;" data-note="F4">3</div>
+        <div class="number" style="--i: 4; --color: #FF0000; --text-color: #00FF00;" data-note="G4">4</div>
+        <div class="number" style="--i: 5; --color: #8A2BE2; --text-color: #FFD700;" data-note="A4">5</div>
+        <div class="number" style="--i: 6; --color: #800080; --text-color: #FFFF00;" data-note="B4">6</div>
+        <div class="number" style="--i: 7; --color: #4B0082; --text-color: #FFA500;" data-note="C5">7</div>
+        <div class="number" style="--i: 8; --color: #0000FF; --text-color: #FF4500;" data-note="D5">8</div>
+        <div class="number" style="--i: 9; --color: #004080; --text-color: #FF0000;" data-note="E5">9</div>
+        <div class="number" style="--i: 10; --color: #008000; --text-color: #8A2BE2;" data-note="F5">10</div>
+        <div class="number" style="--i: 11; --color: #ADFF2F; --text-color: #4B0082;" data-note="G5">11</div>
     </div>
 
     <!-- Rectángulo con la hora -->
@@ -91,30 +91,38 @@
         <span id="time-text">00:00:00</span>
     </div>
 
-    <!-- Reproductores de audio (ocultos) -->
-    <audio id="do" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/do.mp3"></audio>
-    <audio id="re" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/re.mp3"></audio>
-    <audio id="mi" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/mi.mp3"></audio>
-    <audio id="fa" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/fa.mp3"></audio>
-    <audio id="sol" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/sol.mp3"></audio>
-    <audio id="la" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/la.mp3"></audio>
-    <audio id="si" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/si.mp3"></audio>
-    <audio id="do2" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/do2.mp3"></audio>
-    <audio id="re2" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/re2.mp3"></audio>
-    <audio id="mi2" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/mi2.mp3"></audio>
-    <audio id="fa2" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/fa2.mp3"></audio>
-    <audio id="sol2" src="https://cdn.jsdelivr.net/gh/tu-usuario/tu-repositorio/sounds/sol2.mp3"></audio>
-
     <script>
-        // Función para reproducir notas musicales
+        // Función para generar sonidos de piano
         function playNote(note) {
-            const audio = document.getElementById(note);
-            if (audio) {
-                audio.currentTime = 0; // Reinicia el audio si ya está sonando
-                audio.play();
-            } else {
-                console.error(`No se encontró el archivo de audio para la nota: ${note}`);
-            }
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            // Frecuencias de las notas (en Hz)
+            const frequencies = {
+                "C4": 261.63,
+                "D4": 293.66,
+                "E4": 329.63,
+                "F4": 349.23,
+                "G4": 392.00,
+                "A4": 440.00,
+                "B4": 493.88,
+                "C5": 523.25,
+                "D5": 587.33,
+                "E5": 659.25,
+                "F5": 698.46,
+                "G5": 783.99
+            };
+
+            oscillator.frequency.setValueAtTime(frequencies[note], audioContext.currentTime);
+            oscillator.type = 'triangle'; // Tipo de onda (puedes cambiarlo a 'sine', 'square', etc.)
+            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Volumen
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota (0.5 segundos)
         }
 
         // Asignar eventos de clic a los círculos
