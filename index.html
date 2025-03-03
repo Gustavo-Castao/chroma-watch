@@ -17,46 +17,48 @@
         }
         .clock {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 90vmin; /* Tamaño relativo al viewport */
+            height: 90vmin;
+            max-width: 400px; /* Tamaño máximo */
+            max-height: 400px;
             background-color: transparent;
         }
         .hand {
             position: absolute;
-            background-color: black; /* Todas las agujas negras */
+            background-color: black;
             transform-origin: bottom center;
             border-radius: 10px;
             left: 50%;
             bottom: 50%;
         }
-        .hour-hand { width: 8px; height: 100px; }
-        .minute-hand { width: 6px; height: 120px; }
-        .second-hand { width: 3px; height: 160px; } /* Segundero negro */
+        .hour-hand { width: 4vmin; height: 25vmin; }
+        .minute-hand { width: 3vmin; height: 30vmin; }
+        .second-hand { width: 2vmin; height: 35vmin; }
         .number {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 10vmin;
+            height: 10vmin;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 4vmin;
             font-weight: bold;
             color: var(--text-color);
             background-color: var(--color);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-180px) rotate(calc(var(--i) * -30deg));
-            font-family: 'Helvetica', sans-serif;
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-45vmin) rotate(calc(var(--i) * -30deg));
             cursor: pointer;
+            user-select: none; /* Evita la selección de texto */
         }
         .time-display {
-            margin-top: 30px;
-            padding: 20px 40px;
+            margin-top: 5vmin;
+            padding: 2vmin 4vmin;
             background-color: var(--hour-color);
             border: none;
             color: var(--text-color);
-            font-size: 36px;
+            font-size: 6vmin;
             font-weight: bold;
             text-align: center;
             font-family: 'Orbitron', sans-serif;
@@ -115,21 +117,26 @@
             };
 
             oscillator.frequency.setValueAtTime(frequencies[note], audioContext.currentTime);
-            oscillator.type = 'triangle'; // Tipo de onda (puedes cambiarlo a 'sine', 'square', etc.)
+            oscillator.type = 'triangle'; // Tipo de onda
             gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Volumen
 
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
 
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota (0.5 segundos)
+            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota
         }
 
-        // Asignar eventos de clic a los círculos
+        // Asignar eventos de clic y toque a los círculos
         document.querySelectorAll('.number').forEach(number => {
             number.addEventListener('click', () => {
-                const note = number.getAttribute('data-note'); // Obtiene el nombre de la nota
-                playNote(note); // Reproduce la nota
+                const note = number.getAttribute('data-note');
+                playNote(note);
+            });
+            number.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Evita el desplazamiento en dispositivos táctiles
+                const note = number.getAttribute('data-note');
+                playNote(note);
             });
         });
 
@@ -143,7 +150,6 @@
             const hourHand = document.getElementById('hour-hand');
             const minuteHand = document.getElementById('minute-hand');
             const secondHand = document.getElementById('second-hand');
-            const timeDisplay = document.getElementById('time-display');
             const timeText = document.getElementById('time-text');
 
             const hourDeg = (hours % 12) * 30 + (minutes / 2);
@@ -159,8 +165,8 @@
 
             const hourColor = getHourColor(hours % 12);
             const textColor = getOppositeColor(hourColor);
-            timeDisplay.style.setProperty('--hour-color', hourColor);
-            timeDisplay.style.setProperty('--text-color', textColor);
+            document.getElementById('time-display').style.setProperty('--hour-color', hourColor);
+            document.getElementById('time-display').style.setProperty('--text-color', textColor);
         }
 
         function getHourColor(hour) {
