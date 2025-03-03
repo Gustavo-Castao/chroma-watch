@@ -17,46 +17,46 @@
         }
         .clock {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 80vmin; /* Tamaño relativo al viewport */
+            height: 80vmin;
             background-color: transparent;
         }
         .hand {
             position: absolute;
-            background-color: black; /* Todas las agujas negras */
+            background-color: black;
             transform-origin: bottom center;
             border-radius: 10px;
             left: 50%;
             bottom: 50%;
         }
-        .hour-hand { width: 8px; height: 100px; }
-        .minute-hand { width: 6px; height: 120px; }
-        .second-hand { width: 3px; height: 160px; } /* Segundero negro */
+        .hour-hand { width: 2vmin; height: 20vmin; } /* Tamaño relativo */
+        .minute-hand { width: 1.5vmin; height: 30vmin; } /* Tamaño relativo */
+        .second-hand { width: 1vmin; height: 35vmin; } /* Tamaño relativo */
         .number {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 10vmin; /* Tamaño relativo */
+            height: 10vmin;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 3vmin; /* Tamaño de fuente relativo */
             font-weight: bold;
             color: var(--text-color);
             background-color: var(--color);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-180px) rotate(calc(var(--i) * -30deg));
-            font-family: 'Helvetica', sans-serif;
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-35vmin) rotate(calc(var(--i) * -30deg));
             cursor: pointer;
+            user-select: none; /* Evita la selección de texto */
         }
         .time-display {
-            margin-top: 30px;
-            padding: 20px 40px;
+            margin-top: 5vmin; /* Espacio relativo */
+            padding: 2vmin 4vmin; /* Espacio relativo */
             background-color: var(--hour-color);
             border: none;
             color: var(--text-color);
-            font-size: 36px;
+            font-size: 5vmin; /* Tamaño de fuente relativo */
             font-weight: bold;
             text-align: center;
             font-family: 'Orbitron', sans-serif;
@@ -115,14 +115,14 @@
             };
 
             oscillator.frequency.setValueAtTime(frequencies[note], audioContext.currentTime);
-            oscillator.type = 'triangle'; // Tipo de onda (puedes cambiarlo a 'sine', 'square', etc.)
+            oscillator.type = 'triangle'; // Tipo de onda
             gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Volumen
 
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
 
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota (0.5 segundos)
+            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota
         }
 
         // Asignar eventos de clic a los círculos
