@@ -2,41 +2,25 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reloj de Agujas con Piano</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        
         body {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
+            height: 100vh;
             background-color: white;
+            margin: 0;
             font-family: 'Helvetica', sans-serif;
-            overflow-x: hidden;
         }
-        
-        .clock-container {
-            width: 100%;
-            max-width: min(90vmin, 600px);
-            aspect-ratio: 1/1;
-            position: relative;
-            margin: 0 auto;
-        }
-        
         .clock {
             position: relative;
-            width: 100%;
-            height: 100%;
+            width: 90vmin;
+            height: 90vmin;
             background-color: transparent;
         }
-        
         .hand {
             position: absolute;
             background-color: #B3B3B3;
@@ -44,100 +28,49 @@
             border-radius: 10px;
             left: 50%;
             bottom: 50%;
-            z-index: 10;
         }
-        
-        .hour-hand { 
-            width: 2%; 
-            height: 20%; 
-            margin-left: -1%;
-        }
-        
-        .minute-hand { 
-            width: 1.5%; 
-            height: 30%; 
-            margin-left: -0.75%; 
-        }
-        
-        .second-hand { 
-            width: 1%; 
-            height: 35%; 
-            margin-left: -0.5%; 
-            background-color: #e74c3c;
-        }
-        
-        .number-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        
+        .hour-hand { width: 1.5vmin; height: 15vmin; }
+        .minute-hand { width: 1vmin; height: 25vmin; }
+        .second-hand { width: 0.5vmin; height: 30vmin; }
         .number {
             position: absolute;
-            width: 10%;
-            height: 10%;
+            width: 10vmin;
+            height: 10vmin;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(12px, 2vmin, 24px);
+            font-size: 3vmin;
             font-weight: bold;
             color: var(--text-color);
             background-color: var(--color);
             top: 50%;
             left: 50%;
-            transform: 
-                translate(-50%, -50%) 
-                rotate(calc(var(--i) * 30deg)) 
-                translateY(-45%) 
-                rotate(calc(-1 * var(--i) * 30deg));
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg));
             cursor: pointer;
             user-select: none;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 5;
         }
-        
-        .number:hover {
-            transform: 
-                translate(-50%, -50%) 
-                rotate(calc(var(--i) * 30deg)) 
-                translateY(-45%) 
-                rotate(calc(-1 * var(--i) * 30deg))
-                scale(1.1);
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-        }
-        
         .number.clicked {
             animation: pulse 0.5s ease;
         }
-        
         @keyframes pulse {
-            0% { transform: 
-                translate(-50%, -50%) 
-                rotate(calc(var(--i) * 30deg)) 
-                translateY(-45%) 
-                rotate(calc(-1 * var(--i) * 30deg))
-                scale(1); }
-            50% { transform: 
-                translate(-50%, -50%) 
-                rotate(calc(var(--i) * 30deg)) 
-                translateY(-45%) 
-                rotate(calc(-1 * var(--i) * 30deg))
-                scale(1.2); }
-            100% { transform: 
-                translate(-50%, -50%) 
-                rotate(calc(var(--i) * 30deg)) 
-                translateY(-45%) 
-                rotate(calc(-1 * var(--i) * 30deg))
-                scale(1); }
+            0% {
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1.2);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.7);
+            }
         }
-        
         .time-display {
-            margin-top: 25px;
-            padding: 12px 25px;
+            margin-top: 5vmin;
+            padding: 2vmin 4vmin;
             background: linear-gradient(
                 to right,
                 var(--hour-color) 33.33%,
@@ -145,139 +78,81 @@
                 var(--minute-color) 66.66%,
                 var(--second-color) 66.66%
             );
+            border: none;
             color: black;
-            font-size: clamp(16px, 4vmin, 24px);
+            font-size: 5vmin;
             font-weight: bold;
             text-align: center;
             font-family: 'Press Start 2P', cursive;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            width: 95%;
-            max-width: 450px;
+            border-radius: 2vmin;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        
         .seven-segment {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.5vmin;
+            gap: 1vmin;
         }
-        
         .digit {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 0.5vmin;
             position: relative;
-            width: 3.5vmin;
-            height: 7vmin;
-            min-width: 20px;
-            min-height: 40px;
-            max-width: 35px;
-            max-height: 70px;
+            width: 5vmin;
+            height: 10vmin;
         }
-        
         .segment {
             background-color: transparent;
             position: absolute;
         }
-        
-        .segment.a { top: 0; left: 20%; width: 60%; height: 10%; }
-        .segment.b { top: 10%; left: 80%; width: 20%; height: 40%; }
-        .segment.c { top: 50%; left: 80%; width: 20%; height: 40%; }
-        .segment.d { top: 90%; left: 20%; width: 60%; height: 10%; }
-        .segment.e { top: 50%; left: 0; width: 20%; height: 40%; }
-        .segment.f { top: 10%; left: 0; width: 20%; height: 40%; }
-        .segment.g { top: 45%; left: 20%; width: 60%; height: 10%; }
-        
+        .segment.a { top: 0; left: 1vmin; width: 3vmin; height: 0.5vmin; }
+        .segment.b { top: 0.5vmin; left: 4vmin; width: 0.5vmin; height: 4vmin; }
+        .segment.c { top: 5.5vmin; left: 4vmin; width: 0.5vmin; height: 4vmin; }
+        .segment.d { top: 9.5vmin; left: 1vmin; width: 3vmin; height: 0.5vmin; }
+        .segment.e { top: 5.5vmin; left: 0; width: 0.5vmin; height: 4vmin; }
+        .segment.f { top: 0.5vmin; left: 0; width: 0.5vmin; height: 4vmin; }
+        .segment.g { top: 4.5vmin; left: 1vmin; width: 3vmin; height: 0.5vmin; }
         .colon {
-            width: 1.5vmin;
-            height: 1.5vmin;
+            width: 1vmin;
+            height: 1vmin;
             background-color: black;
-            border-radius: 50%;
             margin: 0 1vmin;
-            min-width: 8px;
-            min-height: 8px;
         }
-        
         .description-box {
-            margin-top: 25px;
-            padding: 15px 20px;
-            background-color: #f9f9f9;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            width: 95%;
-            max-width: 550px;
+            margin-top: 5vmin;
+            padding: 2vmin;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 1vmin;
+            width: 80vmin;
             text-align: center;
-            font-size: clamp(14px, 2.2vmin, 18px);
+            font-size: 2.5vmin;
             color: #333;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            line-height: 1.5;
         }
-        
-        .title {
-            font-size: clamp(20px, 4vmin, 32px);
-            margin-bottom: 15px;
-            color: #2c3e50;
-            text-align: center;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        @media (max-width: 768px) {
-            .clock-container {
-                max-width: 85vmin;
-            }
-            
-            .time-display {
-                padding: 10px 15px;
-            }
-            
-            .description-box {
-                padding: 12px 15px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .clock-container {
-                max-width: 95vmin;
-            }
-            
-            .digit {
-                width: 4.5vmin;
-                height: 9vmin;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="title">Reloj de Agujas con Piano</div>
-    
-    <div class="clock-container">
-        <div class="clock">
-            <!-- Agujas -->
-            <div class="hand hour-hand" id="hour-hand"></div>
-            <div class="hand minute-hand" id="minute-hand"></div>
-            <div class="hand second-hand" id="second-hand"></div>
+    <div class="clock">
+        <!-- Agujas -->
+        <div class="hand hour-hand" id="hour-hand"></div>
+        <div class="hand minute-hand" id="minute-hand"></div>
+        <div class="hand second-hand" id="second-hand"></div>
 
-            <!-- Contenedor para números -->
-            <div class="number-container">
-                <!-- Números con descripciones -->
-                <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo"></div>
-                <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo"></div>
-                <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo"></div>
-                <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo"></div>
-                <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo"></div>
-                <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador"></div>
-                <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo"></div>
-                <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo"></div>
-                <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial"></div>
-                <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo"></div>
-                <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media."></div>
-                <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario"></div>
-            </div>
-        </div>
+        <!-- Números con descripciones -->
+        <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo"></div>
+        <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo"></div>
+        <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo"></div>
+        <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo"></div>
+        <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo"></div>
+        <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador"></div>
+        <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo"></div>
+        <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo"></div>
+        <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial"></div>
+        <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo"></div>
+        <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media."></div>
+        <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario"></div>
     </div>
 
     <!-- Rectángulo con la hora -->
@@ -287,19 +162,15 @@
 
     <!-- Cuadro de texto para la descripción -->
     <div class="description-box" id="description-box">
-        Haz clic en un círculo para ver su descripción y escuchar su nota musical.
+        Haz clic en un círculo para ver su descripción.
     </div>
 
     <script>
         // Crear un contexto de audio
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let isPlaying = false;
 
         // Función para generar sonidos de piano con eco
         function playNote(note) {
-            if (isPlaying) return;
-            isPlaying = true;
-            
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             const convolver = audioContext.createConvolver();
@@ -333,8 +204,8 @@
             };
 
             oscillator.frequency.setValueAtTime(frequencies[note], audioContext.currentTime);
-            oscillator.type = 'triangle';
-            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+            oscillator.type = 'triangle'; // Tipo de onda
+            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Volumen
 
             // Conectar los nodos
             oscillator.connect(gainNode);
@@ -342,21 +213,28 @@
             convolver.connect(audioContext.destination);
 
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.5);
-            
-            setTimeout(() => { isPlaying = false; }, 500);
+            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota
         }
 
         // Asignar eventos de clic a los círculos
         document.querySelectorAll('.number').forEach(number => {
             number.addEventListener('click', () => {
-                const note = number.getAttribute('data-note');
-                const description = number.getAttribute('data-description');
+                const note = number.getAttribute('data-note'); // Obtiene el nombre de la nota
+                const description = number.getAttribute('data-description'); // Obtiene la descripción
 
-                playNote(note);
-                document.getElementById('description-box').textContent = description;
+                playNote(note); // Reproduce la nota con eco
+
+                // Actualizar el cuadro de texto con la descripción
+                const descriptionBox = document.getElementById('description-box');
+                descriptionBox.textContent = description;
+
+                // Añadir clase para la animación
                 number.classList.add('clicked');
-                setTimeout(() => number.classList.remove('clicked'), 500);
+
+                // Eliminar la clase después de que termine la animación
+                setTimeout(() => {
+                    number.classList.remove('clicked');
+                }, 500); // Duración de la animación
             });
         });
 
@@ -387,22 +265,24 @@
             const minuteColor = getHourColor(minutes % 12);
             const secondColor = getHourColor(seconds % 12);
 
-            timeDisplay.style.setProperty('--hour-color', hourColor);
-            timeDisplay.style.setProperty('--minute-color', minuteColor);
-            timeDisplay.style.setProperty('--second-color', secondColor);
+            timeDisplay.style.setProperty('--hour-color', hourColor); // Color de la hora
+            timeDisplay.style.setProperty('--minute-color', minuteColor); // Color de los minutos
+            timeDisplay.style.setProperty('--second-color', secondColor); // Color de los segundos
         }
 
         // Función para actualizar el display de 7 segmentos
         function updateSevenSegmentDisplay(time) {
             const sevenSegment = document.getElementById('seven-segment');
-            sevenSegment.innerHTML = '';
+            sevenSegment.innerHTML = ''; // Limpiar el contenido anterior
 
             for (let char of time) {
                 if (char === ':') {
+                    // Agregar dos puntos
                     const colon = document.createElement('div');
                     colon.classList.add('colon');
                     sevenSegment.appendChild(colon);
                 } else {
+                    // Crear un dígito de 7 segmentos
                     const digit = document.createElement('div');
                     digit.classList.add('digit');
 
@@ -413,9 +293,10 @@
                         digit.appendChild(segment);
                     }
 
+                    // Encender los segmentos correspondientes al dígito
                     const activeSegments = getSegmentsForDigit(char);
                     for (let seg of activeSegments) {
-                        digit.querySelector(`.${seg}`).style.backgroundColor = 'black';
+                        digit.querySelector(`.${seg}`).style.backgroundColor = 'black'; // Activar segmento
                     }
 
                     sevenSegment.appendChild(digit);
@@ -423,6 +304,7 @@
             }
         }
 
+        // Función para obtener los segmentos activos de un dígito
         function getSegmentsForDigit(digit) {
             const segments = {
                 '0': ['a', 'b', 'c', 'd', 'e', 'f'],
