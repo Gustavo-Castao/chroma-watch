@@ -129,6 +129,43 @@
             font-size: 2.5vmin;
             color: #333;
         }
+        /* Nuevos estilos para el visualizador de imágenes */
+        .image-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-viewer-content {
+            background-color: white;
+            padding: 3vmin;
+            border-radius: 2vmin;
+            max-width: 80%;
+            max-height: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-viewer img {
+            max-width: 100%;
+            max-height: 60vh;
+            margin-bottom: 2vmin;
+        }
+        .close-viewer {
+            padding: 1vmin 3vmin;
+            background-color: #ED3237;
+            color: white;
+            border: none;
+            border-radius: 1vmin;
+            cursor: pointer;
+            font-size: 2vmin;
+        }
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     </style>
@@ -141,18 +178,18 @@
         <div class="hand second-hand" id="second-hand"></div>
 
         <!-- Números con descripciones -->
-        <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo"></div>
-        <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo"></div>
-        <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo"></div>
-        <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo"></div>
-        <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo"></div>
-        <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador"></div>
-        <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo"></div>
-        <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo"></div>
-        <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial"></div>
-        <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo"></div>
-        <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media."></div>
-        <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario"></div>
+        <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo" data-image="https://ejemplo.com/imagen1.jpg"></div>
+        <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo" data-image="https://ejemplo.com/imagen2.jpg"></div>
+        <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo" data-image="https://ejemplo.com/imagen3.jpg"></div>
+        <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo" data-image="https://ejemplo.com/imagen4.jpg"></div>
+        <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo" data-image="https://ejemplo.com/imagen5.jpg"></div>
+        <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador" data-image="https://ejemplo.com/imagen6.jpg"></div>
+        <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo" data-image="https://ejemplo.com/imagen7.jpg"></div>
+        <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo" data-image="https://ejemplo.com/imagen8.jpg"></div>
+        <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial" data-image="https://ejemplo.com/imagen9.jpg"></div>
+        <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo" data-image="https://ejemplo.com/imagen10.jpg"></div>
+        <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media." data-image="https://ejemplo.com/imagen11.jpg"></div>
+        <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario" data-image="https://ejemplo.com/imagen12.jpg"></div>
     </div>
 
     <!-- Rectángulo con la hora -->
@@ -163,6 +200,15 @@
     <!-- Cuadro de texto para la descripción -->
     <div class="description-box" id="description-box">
         Haz clic en un círculo para ver su descripción.
+    </div>
+
+    <!-- Visualizador de imágenes (nuevo) -->
+    <div class="image-viewer" id="image-viewer">
+        <div class="image-viewer-content">
+            <img id="viewer-image" src="" alt="Imagen del color">
+            <p id="viewer-description"></p>
+            <button class="close-viewer" id="close-viewer">Cerrar</button>
+        </div>
     </div>
 
     <script>
@@ -216,17 +262,39 @@
             oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota
         }
 
+        // Elementos del visualizador de imágenes
+        const imageViewer = document.getElementById('image-viewer');
+        const viewerImage = document.getElementById('viewer-image');
+        const viewerDescription = document.getElementById('viewer-description');
+        const closeViewer = document.getElementById('close-viewer');
+
+        // Función para abrir el visualizador
+        function openImageViewer(imageUrl, description) {
+            viewerImage.src = imageUrl;
+            viewerDescription.textContent = description;
+            imageViewer.style.display = 'flex';
+        }
+
+        // Función para cerrar el visualizador
+        function closeImageViewer() {
+            imageViewer.style.display = 'none';
+        }
+
         // Asignar eventos de clic a los círculos
         document.querySelectorAll('.number').forEach(number => {
             number.addEventListener('click', () => {
-                const note = number.getAttribute('data-note'); // Obtiene el nombre de la nota
-                const description = number.getAttribute('data-description'); // Obtiene la descripción
+                const note = number.getAttribute('data-note');
+                const description = number.getAttribute('data-description');
+                const imageUrl = number.getAttribute('data-image');
 
                 playNote(note); // Reproduce la nota con eco
 
                 // Actualizar el cuadro de texto con la descripción
                 const descriptionBox = document.getElementById('description-box');
                 descriptionBox.textContent = description;
+
+                // Abrir el visualizador de imágenes
+                openImageViewer(imageUrl, description);
 
                 // Añadir clase para la animación
                 number.classList.add('clicked');
@@ -236,6 +304,16 @@
                     number.classList.remove('clicked');
                 }, 500); // Duración de la animación
             });
+        });
+
+        // Asignar evento para cerrar el visualizador
+        closeViewer.addEventListener('click', closeImageViewer);
+
+        // Cerrar al hacer clic fuera de la imagen
+        imageViewer.addEventListener('click', (e) => {
+            if (e.target === imageViewer) {
+                closeImageViewer();
+            }
         });
 
         // Función para actualizar el reloj
@@ -265,24 +343,22 @@
             const minuteColor = getHourColor(minutes % 12);
             const secondColor = getHourColor(seconds % 12);
 
-            timeDisplay.style.setProperty('--hour-color', hourColor); // Color de la hora
-            timeDisplay.style.setProperty('--minute-color', minuteColor); // Color de los minutos
-            timeDisplay.style.setProperty('--second-color', secondColor); // Color de los segundos
+            timeDisplay.style.setProperty('--hour-color', hourColor);
+            timeDisplay.style.setProperty('--minute-color', minuteColor);
+            timeDisplay.style.setProperty('--second-color', secondColor);
         }
 
         // Función para actualizar el display de 7 segmentos
         function updateSevenSegmentDisplay(time) {
             const sevenSegment = document.getElementById('seven-segment');
-            sevenSegment.innerHTML = ''; // Limpiar el contenido anterior
+            sevenSegment.innerHTML = '';
 
             for (let char of time) {
                 if (char === ':') {
-                    // Agregar dos puntos
                     const colon = document.createElement('div');
                     colon.classList.add('colon');
                     sevenSegment.appendChild(colon);
                 } else {
-                    // Crear un dígito de 7 segmentos
                     const digit = document.createElement('div');
                     digit.classList.add('digit');
 
@@ -293,10 +369,9 @@
                         digit.appendChild(segment);
                     }
 
-                    // Encender los segmentos correspondientes al dígito
                     const activeSegments = getSegmentsForDigit(char);
                     for (let seg of activeSegments) {
-                        digit.querySelector(`.${seg}`).style.backgroundColor = 'black'; // Activar segmento
+                        digit.querySelector(`.${seg}`).style.backgroundColor = 'black';
                     }
 
                     sevenSegment.appendChild(digit);
@@ -304,7 +379,6 @@
             }
         }
 
-        // Función para obtener los segmentos activos de un dígito
         function getSegmentsForDigit(digit) {
             const segments = {
                 '0': ['a', 'b', 'c', 'd', 'e', 'f'],
