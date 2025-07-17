@@ -3,83 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reloj Cromático</title>
+    <title>Reloj Cromatico</title>
     <style>
         body {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Cambiado de center a flex-start */
+            justify-content: flex-start;
             align-items: center;
-            min-height: 100vh; /* Cambiado de height a min-height */
-            background-color: white;
+            min-height: 100vh;
             margin: 0;
-            padding: 3vmin 0; /* Añadido padding vertical */
-            font-family: 'Helvetica', sans-serif;
+            padding: 20px;
             box-sizing: border-box;
-            overflow: hidden; /* Previene scroll no deseado */
+            background-color: white;
+            font-family: 'Helvetica', sans-serif;
+            overflow: auto;
+        }
+        
+        .clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .clock {
             position: relative;
-            width: 70vmin; /* Reducido de 90vmin */
-            height: 70vmin; /* Reducido de 90vmin */
-            background-color: transparent;
-            margin: 2vmin 0; /* Espacio alrededor del reloj */
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            margin: 0 auto;
         }
         
         .hand {
             position: absolute;
-            background-color: #B3B3B3;
-            transform-origin: bottom center;
-            border-radius: 10px;
             left: 50%;
             bottom: 50%;
+            transform-origin: bottom center;
+            border-radius: 10px;
+            background-color: #B3B3B3;
         }
         
-        .hour-hand { width: 1.3vmin; height: 14vmin; } /* Reducido */
-        .minute-hand { width: 0.8vmin; height: 22vmin; } /* Reducido */
-        .second-hand { width: 0.4vmin; height: 26vmin; } /* Reducido */
+        .hour-hand {
+            width: 8px;
+            height: 80px;
+            margin-left: -4px;
+        }
+        
+        .minute-hand {
+            width: 5px;
+            height: 120px;
+            margin-left: -2.5px;
+        }
+        
+        .second-hand {
+            width: 3px;
+            height: 140px;
+            margin-left: -1.5px;
+            background-color: #ED3237;
+        }
         
         .number {
             position: absolute;
-            width: 8vmin; /* Reducido */
-            height: 8vmin; /* Reducido */
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.5vmin; /* Reducido */
+            font-size: 16px;
             font-weight: bold;
             color: var(--text-color);
             background-color: var(--color);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-32vmin) rotate(calc(var(--i) * -30deg));
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-160px) rotate(calc(var(--i) * -30deg));
             cursor: pointer;
             user-select: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .time-display {
-            margin: 2vmin 0; /* Reducido margen superior */
-            padding: 1.5vmin 3vmin; /* Reducido */
-            font-size: 4vmin; /* Reducido */
-            width: 60vmin; /* Ancho fijo */
+            margin: 20px 0;
+            padding: 15px 30px;
+            background: linear-gradient(
+                to right,
+                var(--hour-color) 33.33%,
+                var(--minute-color) 33.33%,
+                var(--minute-color) 66.66%,
+                var(--second-color) 66.66%
+            );
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            text-align: center;
         }
         
         .description-box {
-            margin: 2vmin 0; /* Reducido */
-            padding: 2vmin;
-            width: 70vmin; /* Ajustado al reloj */
-            font-size: 2.2vmin; /* Reducido */
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
         }
         
-        /* Resto de estilos permanecen iguales */
+        .image-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .image-viewer-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .clock {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .number {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-120px) rotate(calc(var(--i) * -30deg));
+            }
+            
+            .time-display {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Contenido del reloj permanece igual -->
-    
+    <div class="clock-container">
+        <div class="clock">
+            <div class="hand hour-hand" id="hour-hand"></div>
+            <div class="hand minute-hand" id="minute-hand"></div>
+            <div class="hand second-hand" id="second-hand"></div>
+            
+            <!-- Números del reloj -->
+            <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo" data-image="https://ejemplo.com/imagen1.jpg">1</div>
+            <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo" data-image="https://ejemplo.com/imagen2.jpg">2</div>
+            <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo" data-image="https://ejemplo.com/imagen3.jpg">3</div>
+            <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo" data-image="https://ejemplo.com/imagen4.jpg">4</div>
+            <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo" data-image="https://ejemplo.com/imagen5.jpg">5</div>
+            <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador" data-image="https://ejemplo.com/imagen6.jpg">6</div>
+            <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo" data-image="https://ejemplo.com/imagen7.jpg">7</div>
+            <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo" data-image="https://ejemplo.com/imagen8.jpg">8</div>
+            <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial" data-image="https://ejemplo.com/imagen9.jpg">9</div>
+            <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo" data-image="https://ejemplo.com/imagen10.jpg">10</div>
+            <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media." data-image="https://ejemplo.com/imagen11.jpg">11</div>
+            <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario" data-image="https://ejemplo.com/imagen12.jpg">12</div>
+        </div>
+
+        <div class="time-display" id="time-display">
+            00:00:00
+        </div>
+
+        <div class="description-box" id="description-box">
+            Haz clic en un número para ver su descripción.
+        </div>
+    </div>
+
+    <div class="image-viewer" id="image-viewer">
+        <div class="image-viewer-content">
+            <img id="viewer-image" src="" alt="Imagen del color">
+            <p id="viewer-description"></p>
+            <button id="close-viewer">Cerrar</button>
+        </div>
+    </div>
+
     <script>
         // Función para actualizar el reloj con segmentos de 5 segundos
         function updateClock() {
@@ -90,7 +203,7 @@
             
             // Ajuste para segmentos de 5 segundos
             const adjustedSeconds = Math.floor(seconds / 5) * 5;
-            const segmentPosition = (adjustedSeconds % 60) / 5; // 0-11
+            const segmentPosition = Math.floor(adjustedSeconds / 5); // 0-11
 
             const hourHand = document.getElementById('hour-hand');
             const minuteHand = document.getElementById('minute-hand');
@@ -99,14 +212,14 @@
 
             const hourDeg = (hours % 12) * 30 + (minutes / 2);
             const minuteDeg = minutes * 6;
-            const secondDeg = adjustedSeconds * 6; // Usamos adjustedSeconds
+            const secondDeg = adjustedSeconds * 6;
 
             hourHand.style.transform = `rotate(${hourDeg}deg)`;
             minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
             secondHand.style.transform = `rotate(${secondDeg}deg)`;
 
             const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(adjustedSeconds).padStart(2, '0')}`;
-            updateSevenSegmentDisplay(formattedTime);
+            timeDisplay.textContent = formattedTime;
 
             const hourColor = getHourColor(hours % 12);
             const minuteColor = getHourColor(minutes % 12);
@@ -117,7 +230,37 @@
             timeDisplay.style.setProperty('--second-color', secondColor);
         }
 
-        // Resto del código JavaScript permanece igual
+        function getHourColor(position) {
+            const colors = [
+                "#FFF212", "#FFC93A", "#F68B38", "#F15D36", "#ED3237", "#9B314A",
+                "#322D59", "#3D3C7F", "#135FA7", "#0B5D64", "#068B4F", "#5FBB51"
+            ];
+            return colors[position % 12];
+        }
+
+        // Inicializar el reloj
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Funcionalidad de los números
+        document.querySelectorAll('.number').forEach(number => {
+            number.addEventListener('click', function() {
+                const description = this.getAttribute('data-description');
+                const imageUrl = this.getAttribute('data-image');
+                
+                document.getElementById('description-box').textContent = description;
+                
+                // Mostrar imagen en el visor
+                document.getElementById('viewer-image').src = imageUrl;
+                document.getElementById('viewer-description').textContent = description;
+                document.getElementById('image-viewer').style.display = 'flex';
+            });
+        });
+
+        // Cerrar visor de imágenes
+        document.getElementById('close-viewer').addEventListener('click', function() {
+            document.getElementById('image-viewer').style.display = 'none';
+        });
     </script>
 </body>
 </html>
