@@ -3,103 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reloj de Agujas con Piano</title>
+    <title>Reloj Cromatico</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Helvetica+Neue:wght@400;700&display=swap');
-        
         body {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            height: 100vh;
             background-color: white;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            overflow: auto;
+            margin: 0;
+            font-family: 'Helvetica', sans-serif;
         }
-        
-        .clock-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
         .clock {
             position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 400px;
-            margin: 0 auto;
+            width: 90vmin;
+            height: 90vmin;
+            background-color: transparent;
         }
-        
         .hand {
             position: absolute;
-            left: 50%;
-            bottom: 50%;
+            background-color: #B3B3B3;
             transform-origin: bottom center;
             border-radius: 10px;
-            background-color: #B3B3B3;
+            left: 50%;
+            bottom: 50%;
         }
-        
-        .hour-hand {
-            width: 8px;
-            height: 80px;
-            margin-left: -4px;
-        }
-        
-        .minute-hand {
-            width: 5px;
-            height: 120px;
-            margin-left: -2.5px;
-        }
-        
-        .second-hand {
-            width: 3px;
-            height: 140px;
-            margin-left: -1.5px;
-            background-color: #ED3237;
-        }
-        
+        .hour-hand { width: 1.5vmin; height: 15vmin; }
+        .minute-hand { width: 1vmin; height: 25vmin; }
+        .second-hand { width: 0.5vmin; height: 30vmin; }
         .number {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 10vmin;
+            height: 10vmin;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            font-size: 3vmin;
             font-weight: bold;
-            font-family: 'Bebas Neue', sans-serif;
             color: var(--text-color);
             background-color: var(--color);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-160px) rotate(calc(var(--i) * -30deg));
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg));
             cursor: pointer;
             user-select: none;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
         .number.clicked {
             animation: pulse 0.5s ease;
         }
-        
         @keyframes pulse {
-            0% { transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-160px) rotate(calc(var(--i) * -30deg)) scale(1); }
-            50% { transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-160px) rotate(calc(var(--i) * -30deg)) scale(1.2); }
-            100% { transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-160px) rotate(calc(var(--i) * -30deg)) scale(1); }
+            0% {
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1.2);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.7);
+            }
         }
-        
         .time-display {
-            margin: 20px 0;
-            padding: 15px 30px;
+            margin-top: 5vmin;
+            padding: 2vmin 4vmin;
             background: linear-gradient(
                 to right,
                 var(--hour-color) 33.33%,
@@ -107,26 +78,58 @@
                 var(--minute-color) 66.66%,
                 var(--second-color) 66.66%
             );
-            border-radius: 10px;
+            border: none;
+            color: black;
+            font-size: 5vmin;
+            font-weight: bold;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            border-radius: 2vmin;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 24px;
-            text-align: center;
-            letter-spacing: 2px;
         }
-        
+        .seven-segment {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1vmin;
+        }
+        .digit {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5vmin;
+            position: relative;
+            width: 5vmin;
+            height: 10vmin;
+        }
+        .segment {
+            background-color: transparent;
+            position: absolute;
+        }
+        .segment.a { top: 0; left: 1vmin; width: 3vmin; height: 0.5vmin; }
+        .segment.b { top: 0.5vmin; left: 4vmin; width: 0.5vmin; height: 4vmin; }
+        .segment.c { top: 5.5vmin; left: 4vmin; width: 0.5vmin; height: 4vmin; }
+        .segment.d { top: 9.5vmin; left: 1vmin; width: 3vmin; height: 0.5vmin; }
+        .segment.e { top: 5.5vmin; left: 0; width: 0.5vmin; height: 4vmin; }
+        .segment.f { top: 0.5vmin; left: 0; width: 0.5vmin; height: 4vmin; }
+        .segment.g { top: 4.5vmin; left: 1vmin; width: 3vmin; height: 0.5vmin; }
+        .colon {
+            width: 1vmin;
+            height: 1vmin;
+            background-color: black;
+            margin: 0 1vmin;
+        }
         .description-box {
-            width: 100%;
-            max-width: 500px;
-            padding: 15px;
-            margin: 10px 0;
+            margin-top: 5vmin;
+            padding: 2vmin;
             background-color: #f0f0f0;
-            border-radius: 8px;
+            border: 1px solid #ccc;
+            border-radius: 1vmin;
+            width: 80vmin;
             text-align: center;
-            font-size: 16px;
-            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 2.5vmin;
+            color: #333;
         }
-        
+        /* Nuevos estilos para el visualizador de imágenes */
         .image-viewer {
             display: none;
             position: fixed;
@@ -139,92 +142,67 @@
             justify-content: center;
             align-items: center;
         }
-        
         .image-viewer-content {
             background-color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 3vmin;
+            border-radius: 2vmin;
             max-width: 80%;
             max-height: 80%;
-            text-align: center;
-            font-family: 'Helvetica Neue', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
         .image-viewer img {
             max-width: 100%;
             max-height: 60vh;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            margin-bottom: 2vmin;
         }
-        
         .close-viewer {
-            padding: 10px 20px;
+            padding: 1vmin 3vmin;
             background-color: #ED3237;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 1vmin;
             cursor: pointer;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 18px;
-            letter-spacing: 1px;
-            transition: background-color 0.3s;
+            font-size: 2vmin;
         }
-        
-        .close-viewer:hover {
-            background-color: #c62828;
-        }
-        
-        @media (max-width: 600px) {
-            .clock {
-                width: 300px;
-                height: 300px;
-            }
-            
-            .number {
-                width: 40px;
-                height: 40px;
-                font-size: 14px;
-                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-120px) rotate(calc(var(--i) * -30deg));
-            }
-            
-            .time-display {
-                font-size: 18px;
-                padding: 10px 20px;
-            }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     </style>
 </head>
 <body>
-    <div class="clock-container">
-        <div class="clock">
-            <div class="hand hour-hand" id="hour-hand"></div>
-            <div class="hand minute-hand" id="minute-hand"></div>
-            <div class="hand second-hand" id="second-hand"></div>
-            
-            <!-- Números del reloj -->
-            <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo" data-image="https://ejemplo.com/imagen1.jpg">1</div>
-            <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo" data-image="https://ejemplo.com/imagen2.jpg">2</div>
-            <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo" data-image="https://ejemplo.com/imagen3.jpg">3</div>
-            <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo" data-image="https://ejemplo.com/imagen4.jpg">4</div>
-            <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo" data-image="https://ejemplo.com/imagen5.jpg">5</div>
-            <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador" data-image="https://ejemplo.com/imagen6.jpg">6</div>
-            <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo" data-image="https://ejemplo.com/imagen7.jpg">7</div>
-            <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo" data-image="https://ejemplo.com/imagen8.jpg">8</div>
-            <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial" data-image="https://ejemplo.com/imagen9.jpg">9</div>
-            <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo" data-image="https://ejemplo.com/imagen10.jpg">10</div>
-            <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media." data-image="https://ejemplo.com/imagen11.jpg">11</div>
-            <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario" data-image="https://ejemplo.com/imagen12.jpg">12</div>
-        </div>
+    <div class="clock">
+        <!-- Agujas -->
+        <div class="hand hour-hand" id="hour-hand"></div>
+        <div class="hand minute-hand" id="minute-hand"></div>
+        <div class="hand second-hand" id="second-hand"></div>
 
-        <div class="time-display" id="time-display">
-            00:00:00
-        </div>
-
-        <div class="description-box" id="description-box">
-            Haz clic en un número para ver su descripción.
-        </div>
+        <!-- Números con descripciones -->
+        <div class="number" style="--i: 0; --color: #FFF212; --text-color: #800080;" data-note="C4" data-description="Amarillo: Color primario Sensible. El mas próximo a la luz. De mayor claridad propia. Lado positivo" data-image="https://ejemplo.com/imagen1.jpg"></div>
+        <div class="number" style="--i: 1; --color: #FFC93A; --text-color: #0000FF;" data-note="D4" data-description="Amarillo naranja: color terciario. Lado positivo" data-image="https://ejemplo.com/imagen2.jpg"></div>
+        <div class="number" style="--i: 2; --color: #F68B38; --text-color: #0000FF;" data-note="E4" data-description="Naranja: color secundario. Lado positivo" data-image="https://ejemplo.com/imagen3.jpg"></div>
+        <div class="number" style="--i: 3; --color: #F15D36; --text-color: #00BFFF;" data-note="F4" data-description="Rojo naranja: color Terciario. Lado positivo" data-image="https://ejemplo.com/imagen4.jpg"></div>
+        <div class="number" style="--i: 4; --color: #ED3237; --text-color: #00FF00;" data-note="G4" data-description="Rojo: color primario y de mayor fuerza cromática. Lado positivo" data-image="https://ejemplo.com/imagen5.jpg"></div>
+        <div class="number" style="--i: 5; --color: #9B314A; --text-color: #FFD700;" data-note="A4" data-description="Rojo violeta: color terciario. Mediador" data-image="https://ejemplo.com/imagen6.jpg"></div>
+        <div class="number" style="--i: 6; --color: #322D59; --text-color: #FFFF00;" data-note="B4" data-description="Violeta: el mas oscuro de los colores pictóricos de cobertura. Lado negativo" data-image="https://ejemplo.com/imagen7.jpg"></div>
+        <div class="number" style="--i: 7; --color: #3D3C7F; --text-color: #FFA500;" data-note="C5" data-description="Azul Violeta: color terciario. Lado negativo" data-image="https://ejemplo.com/imagen8.jpg"></div>
+        <div class="number" style="--i: 8; --color: #135FA7; --text-color: #FF4500;" data-note="D5" data-description="Azul: Color primario. Lado negativo. Menor estimulo cromático, mayor estimulo sensorial" data-image="https://ejemplo.com/imagen9.jpg"></div>
+        <div class="number" style="--i: 9; --color: #0B5D64; --text-color: #FF0000;" data-note="E5" data-description="Azul verde: Color terciario. Lado negativo" data-image="https://ejemplo.com/imagen10.jpg"></div>
+        <div class="number" style="--i: 10; --color: #068B4F; --text-color: #8A2BE2;" data-note="F5" data-description="Verde: Color secundario. Mediador, a veces frio. Claridad media." data-image="https://ejemplo.com/imagen11.jpg"></div>
+        <div class="number" style="--i: 11; --color: #5FBB51; --text-color: #4B0082;" data-note="G5" data-description="Amarillo verde: Color terciario" data-image="https://ejemplo.com/imagen12.jpg"></div>
     </div>
 
+    <!-- Rectángulo con la hora -->
+    <div class="time-display" id="time-display">
+        <div class="seven-segment" id="seven-segment"></div>
+    </div>
+
+    <!-- Cuadro de texto para la descripción -->
+    <div class="description-box" id="description-box">
+        Haz clic en un círculo para ver su descripción.
+    </div>
+
+    <!-- Visualizador de imágenes (nuevo) -->
     <div class="image-viewer" id="image-viewer">
         <div class="image-viewer-content">
             <img id="viewer-image" src="" alt="Imagen del color">
@@ -236,41 +214,107 @@
     <script>
         // Crear un contexto de audio
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Precargar samples de piano para mejor rendimiento
-        const pianoNotes = {
-            "C4": 261.63, "D4": 293.66, "E4": 329.63, "F4": 349.23, 
-            "G4": 392.00, "A4": 440.00, "B4": 493.88, "C5": 523.25, 
-            "D5": 587.33, "E5": 659.25, "F5": 698.46, "G5": 783.99
-        };
 
-        // Función mejorada para generar sonidos de piano
+        // Función para generar sonidos de piano con eco
         function playNote(note) {
-            try {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                // Configuración más realista de piano
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(pianoNotes[note], audioContext.currentTime);
-                
-                // Envolvente ADSR para sonido más natural
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.5, audioContext.currentTime + 0.1);
-                gainNode.gain.exponentialRampToValueAtTime(0.3, audioContext.currentTime + 0.2);
-                gainNode.gain.exponentialRampToValueAtTime(0, audioContext.currentTime + 0.5);
-                
-                // Conexiones
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Iniciar y detener
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.5);
-            } catch (e) {
-                console.error("Error al reproducir sonido:", e);
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            const convolver = audioContext.createConvolver();
+
+            // Crear un buffer de impulso para simular el eco
+            const impulseResponse = audioContext.createBuffer(2, audioContext.sampleRate * 2, audioContext.sampleRate);
+            const left = impulseResponse.getChannelData(0);
+            const right = impulseResponse.getChannelData(1);
+
+            for (let i = 0; i < impulseResponse.length; i++) {
+                left[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseResponse.length, 1);
+                right[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseResponse.length, 1);
             }
+
+            convolver.buffer = impulseResponse;
+
+            // Frecuencias de las notas (en Hz)
+            const frequencies = {
+                "C4": 261.63,
+                "D4": 293.66,
+                "E4": 329.63,
+                "F4": 349.23,
+                "G4": 392.00,
+                "A4": 440.00,
+                "B4": 493.88,
+                "C5": 523.25,
+                "D5": 587.33,
+                "E5": 659.25,
+                "F5": 698.46,
+                "G5": 783.99
+            };
+
+            oscillator.frequency.setValueAtTime(frequencies[note], audioContext.currentTime);
+            oscillator.type = 'triangle'; // Tipo de onda
+            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Volumen
+
+            // Conectar los nodos
+            oscillator.connect(gainNode);
+            gainNode.connect(convolver);
+            convolver.connect(audioContext.destination);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5); // Duración de la nota
         }
+
+        // Elementos del visualizador de imágenes
+        const imageViewer = document.getElementById('image-viewer');
+        const viewerImage = document.getElementById('viewer-image');
+        const viewerDescription = document.getElementById('viewer-description');
+        const closeViewer = document.getElementById('close-viewer');
+
+        // Función para abrir el visualizador
+        function openImageViewer(imageUrl, description) {
+            viewerImage.src = imageUrl;
+            viewerDescription.textContent = description;
+            imageViewer.style.display = 'flex';
+        }
+
+        // Función para cerrar el visualizador
+        function closeImageViewer() {
+            imageViewer.style.display = 'none';
+        }
+
+        // Asignar eventos de clic a los círculos
+        document.querySelectorAll('.number').forEach(number => {
+            number.addEventListener('click', () => {
+                const note = number.getAttribute('data-note');
+                const description = number.getAttribute('data-description');
+                const imageUrl = number.getAttribute('data-image');
+
+                playNote(note); // Reproduce la nota con eco
+
+                // Actualizar el cuadro de texto con la descripción
+                const descriptionBox = document.getElementById('description-box');
+                descriptionBox.textContent = description;
+
+                // Abrir el visualizador de imágenes
+                openImageViewer(imageUrl, description);
+
+                // Añadir clase para la animación
+                number.classList.add('clicked');
+
+                // Eliminar la clase después de que termine la animación
+                setTimeout(() => {
+                    number.classList.remove('clicked');
+                }, 500); // Duración de la animación
+            });
+        });
+
+        // Asignar evento para cerrar el visualizador
+        closeViewer.addEventListener('click', closeImageViewer);
+
+        // Cerrar al hacer clic fuera de la imagen
+        imageViewer.addEventListener('click', (e) => {
+            if (e.target === imageViewer) {
+                closeImageViewer();
+            }
+        });
 
         // Función para actualizar el reloj
         function updateClock() {
@@ -293,7 +337,7 @@
             secondHand.style.transform = `rotate(${secondDeg}deg)`;
 
             const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            timeDisplay.textContent = formattedTime;
+            updateSevenSegmentDisplay(formattedTime);
 
             const hourColor = getHourColor(hours % 12);
             const minuteColor = getHourColor(minutes % 12);
@@ -304,55 +348,63 @@
             timeDisplay.style.setProperty('--second-color', secondColor);
         }
 
-        function getHourColor(position) {
+        // Función para actualizar el display de 7 segmentos
+        function updateSevenSegmentDisplay(time) {
+            const sevenSegment = document.getElementById('seven-segment');
+            sevenSegment.innerHTML = '';
+
+            for (let char of time) {
+                if (char === ':') {
+                    const colon = document.createElement('div');
+                    colon.classList.add('colon');
+                    sevenSegment.appendChild(colon);
+                } else {
+                    const digit = document.createElement('div');
+                    digit.classList.add('digit');
+
+                    const segments = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+                    for (let seg of segments) {
+                        const segment = document.createElement('div');
+                        segment.classList.add('segment', seg);
+                        digit.appendChild(segment);
+                    }
+
+                    const activeSegments = getSegmentsForDigit(char);
+                    for (let seg of activeSegments) {
+                        digit.querySelector(`.${seg}`).style.backgroundColor = 'black';
+                    }
+
+                    sevenSegment.appendChild(digit);
+                }
+            }
+        }
+
+        function getSegmentsForDigit(digit) {
+            const segments = {
+                '0': ['a', 'b', 'c', 'd', 'e', 'f'],
+                '1': ['b', 'c'],
+                '2': ['a', 'b', 'g', 'e', 'd'],
+                '3': ['a', 'b', 'g', 'c', 'd'],
+                '4': ['f', 'g', 'b', 'c'],
+                '5': ['a', 'f', 'g', 'c', 'd'],
+                '6': ['a', 'f', 'g', 'c', 'd', 'e'],
+                '7': ['a', 'b', 'c'],
+                '8': ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+                '9': ['a', 'b', 'c', 'd', 'f', 'g']
+            };
+            return segments[digit] || [];
+        }
+
+        function getHourColor(hour) {
             const colors = [
                 "#FFF212", "#FFC93A", "#F68B38", "#F15D36", "#ED3237", "#9B314A",
                 "#322D59", "#3D3C7F", "#135FA7", "#0B5D64", "#068B4F", "#5FBB51"
             ];
-            return colors[position % 12];
+            return colors[hour];
         }
 
-        // Inicializar el reloj
         setInterval(updateClock, 1000);
         updateClock();
-
-        // Funcionalidad de los números
-        document.querySelectorAll('.number').forEach(number => {
-            number.addEventListener('click', function() {
-                const note = this.getAttribute('data-note');
-                const description = this.getAttribute('data-description');
-                const imageUrl = this.getAttribute('data-image');
-                
-                // Reproducir sonido
-                playNote(note);
-                
-                // Actualizar descripción
-                document.getElementById('description-box').textContent = description;
-                
-                // Mostrar imagen en el visor
-                document.getElementById('viewer-image').src = imageUrl;
-                document.getElementById('viewer-description').textContent = description;
-                document.getElementById('image-viewer').style.display = 'flex';
-                
-                // Animación de pulsación
-                this.classList.add('clicked');
-                setTimeout(() => {
-                    this.classList.remove('clicked');
-                }, 500);
-            });
-        });
-
-        // Cerrar visor de imágenes
-        document.getElementById('close-viewer').addEventListener('click', function() {
-            document.getElementById('image-viewer').style.display = 'none';
-        });
-
-        // Permitir cerrar haciendo clic fuera de la imagen
-        document.getElementById('image-viewer').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.display = 'none';
-            }
-        });
     </script>
 </body>
 </html>
