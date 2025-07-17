@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reloj Cromatico</title>
+    <title>Reloj de Agujas con Piano</title>
     <style>
         body {
             display: flex;
@@ -14,11 +14,12 @@
             background-color: white;
             margin: 0;
             font-family: 'Helvetica', sans-serif;
+            overflow: hidden;
         }
         .clock {
             position: relative;
-            width: 90vmin;
-            height: 90vmin;
+            width: 70vmin;  /* Reducido de 90vmin a 70vmin */
+            height: 70vmin; /* Reducido de 90vmin a 70vmin */
             background-color: transparent;
         }
         .hand {
@@ -46,7 +47,7 @@
             background-color: var(--color);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg));
+            transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-32vmin) rotate(calc(var(--i) * -30deg)); /* Ajustado de 40vmin a 32vmin */
             cursor: pointer;
             user-select: none;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -56,21 +57,21 @@
         }
         @keyframes pulse {
             0% {
-                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1);
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-32vmin) rotate(calc(var(--i) * -30deg)) scale(1);
                 box-shadow: 0 0 0 rgba(255, 255, 255, 0.7);
             }
             50% {
-                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1.2);
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-32vmin) rotate(calc(var(--i) * -30deg)) scale(1.2);
                 box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             }
             100% {
-                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-40vmin) rotate(calc(var(--i) * -30deg)) scale(1);
+                transform: translate(-50%, -50%) rotate(calc(var(--i) * 30deg)) translateY(-32vmin) rotate(calc(var(--i) * -30deg)) scale(1);
                 box-shadow: 0 0 0 rgba(255, 255, 255, 0.7);
             }
         }
         .time-display {
-            margin-top: 5vmin;
-            padding: 2vmin 4vmin;
+            margin-top: 3vmin; /* Reducido de 5vmin a 3vmin */
+            padding: 1.5vmin 3vmin; /* Reducido de 2vmin 4vmin */
             background: linear-gradient(
                 to right,
                 var(--hour-color) 33.33%,
@@ -80,7 +81,7 @@
             );
             border: none;
             color: black;
-            font-size: 5vmin;
+            font-size: 4vmin; /* Reducido de 5vmin */
             font-weight: bold;
             text-align: center;
             font-family: 'Press Start 2P', cursive;
@@ -98,38 +99,37 @@
             flex-direction: column;
             gap: 0.5vmin;
             position: relative;
-            width: 5vmin;
-            height: 10vmin;
+            width: 4vmin; /* Reducido de 5vmin */
+            height: 8vmin; /* Reducido de 10vmin */
         }
         .segment {
             background-color: transparent;
             position: absolute;
         }
-        .segment.a { top: 0; left: 1vmin; width: 3vmin; height: 0.5vmin; }
-        .segment.b { top: 0.5vmin; left: 4vmin; width: 0.5vmin; height: 4vmin; }
-        .segment.c { top: 5.5vmin; left: 4vmin; width: 0.5vmin; height: 4vmin; }
-        .segment.d { top: 9.5vmin; left: 1vmin; width: 3vmin; height: 0.5vmin; }
-        .segment.e { top: 5.5vmin; left: 0; width: 0.5vmin; height: 4vmin; }
-        .segment.f { top: 0.5vmin; left: 0; width: 0.5vmin; height: 4vmin; }
-        .segment.g { top: 4.5vmin; left: 1vmin; width: 3vmin; height: 0.5vmin; }
+        .segment.a { top: 0; left: 0.8vmin; width: 2.4vmin; height: 0.4vmin; }
+        .segment.b { top: 0.4vmin; left: 3.2vmin; width: 0.4vmin; height: 3.2vmin; }
+        .segment.c { top: 4.4vmin; left: 3.2vmin; width: 0.4vmin; height: 3.2vmin; }
+        .segment.d { top: 7.6vmin; left: 0.8vmin; width: 2.4vmin; height: 0.4vmin; }
+        .segment.e { top: 4.4vmin; left: 0; width: 0.4vmin; height: 3.2vmin; }
+        .segment.f { top: 0.4vmin; left: 0; width: 0.4vmin; height: 3.2vmin; }
+        .segment.g { top: 3.6vmin; left: 0.8vmin; width: 2.4vmin; height: 0.4vmin; }
         .colon {
-            width: 1vmin;
-            height: 1vmin;
+            width: 0.8vmin; /* Reducido de 1vmin */
+            height: 0.8vmin; /* Reducido de 1vmin */
             background-color: black;
-            margin: 0 1vmin;
+            margin: 0 0.8vmin; /* Reducido de 1vmin */
         }
         .description-box {
-            margin-top: 5vmin;
-            padding: 2vmin;
+            margin-top: 3vmin; /* Reducido de 5vmin */
+            padding: 1.5vmin; /* Reducido de 2vmin */
             background-color: #f0f0f0;
             border: 1px solid #ccc;
             border-radius: 1vmin;
-            width: 80vmin;
+            width: 65vmin; /* Reducido de 80vmin */
             text-align: center;
-            font-size: 2.5vmin;
+            font-size: 2vmin; /* Reducido de 2.5vmin */
             color: #333;
         }
-        /* Nuevos estilos para el visualizador de imágenes */
         .image-viewer {
             display: none;
             position: fixed;
@@ -144,7 +144,7 @@
         }
         .image-viewer-content {
             background-color: white;
-            padding: 3vmin;
+            padding: 2vmin; /* Reducido de 3vmin */
             border-radius: 2vmin;
             max-width: 80%;
             max-height: 80%;
@@ -154,23 +154,24 @@
         }
         .image-viewer img {
             max-width: 100%;
-            max-height: 60vh;
-            margin-bottom: 2vmin;
+            max-height: 50vh; /* Reducido de 60vh */
+            margin-bottom: 1.5vmin; /* Reducido de 2vmin */
         }
         .close-viewer {
-            padding: 1vmin 3vmin;
+            padding: 0.8vmin 2.4vmin; /* Reducido de 1vmin 3vmin */
             background-color: #ED3237;
             color: white;
             border: none;
             border-radius: 1vmin;
             cursor: pointer;
-            font-size: 2vmin;
+            font-size: 1.6vmin; /* Reducido de 2vmin */
         }
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     </style>
 </head>
 <body>
+    <!-- El resto del HTML permanece exactamente igual -->
     <div class="clock">
         <!-- Agujas -->
         <div class="hand hour-hand" id="hour-hand"></div>
@@ -211,6 +212,7 @@
         </div>
     </div>
 
+    <!-- El JavaScript permanece exactamente igual -->
     <script>
         // Crear un contexto de audio
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
